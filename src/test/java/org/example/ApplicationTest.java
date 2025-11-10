@@ -36,11 +36,18 @@ public class ApplicationTest extends NsTest {
         assertThrows(IllegalArgumentException.class, () -> run("1$2"));
     }
 
-    @DisplayName("연산자 계산은 우선순위를 따라야 한다.")
+    @DisplayName("연산자 계산은 우선순위를 따라야 한다. 1")
     @Test
-    public void operatorCalculationShouldFollowPrecedence() {
+    public void operatorCalculationShouldFollowPrecedence1() {
         run("2+3*4");
         assertEquals("14", output());
+    }
+
+    @DisplayName("연산자 계산은 우선순위를 따라야 한다. 2")
+    @Test
+    public void operatorCalculationShouldFollowPrecedence2() {
+        run("(2+3)*4");
+        assertEquals("20", output());
     }
 
     @Override
