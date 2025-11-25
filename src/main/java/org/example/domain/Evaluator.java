@@ -2,6 +2,8 @@ package org.example.domain;
 
 import java.util.List;
 import java.util.Stack;
+import java.util.function.BiPredicate;
+import java.util.function.Predicate;
 
 public class Evaluator {
 
@@ -32,13 +34,22 @@ public class Evaluator {
     }
 
     private int calc(int a, int b, String op) {
-        return switch (op) {
-            case "+" -> a + b;
-            case "-" -> a - b;
-            case "*" -> a * b;
-            case "/" -> a / b;
-            default -> throw new IllegalArgumentException("잘못된 연산자");
-        };
+        try {
+            return switch (op) {
+                case "+" -> a + b;
+                case "-" -> a - b;
+                case "*" -> a * b;
+                case "/" -> {
+                    if (b == 0) {
+                        throw new ArithmeticException("0으로 나눌 수 없음");
+                    }
+                    yield a / b;
+                }
+                default -> throw new IllegalArgumentException("잘못된 연산자");
+            };
+        } catch (ArithmeticException e) {
+            throw new IllegalArgumentException("잘못된 수식");
+        }
     }
 
     private boolean isNumber(String s) {

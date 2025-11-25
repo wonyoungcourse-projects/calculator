@@ -13,7 +13,7 @@ public class PostfixConverter {
 
     public List<String> toPostfix(List<String> tokens) {
         List<String> output = new ArrayList<>();
-        Stack<String> op = new Stack<>();
+        Deque<String> op = new ArrayDeque<>();
 
         for (String t : tokens) {
 
@@ -24,6 +24,7 @@ public class PostfixConverter {
                 while (!op.isEmpty()
                         && isOperator(op.peek())
                         && priority.get(op.peek()) >= priority.get(t)) {
+
                     output.add(op.pop());
                 }
                 op.push(t);
@@ -39,7 +40,7 @@ public class PostfixConverter {
                 if (op.isEmpty()) {
                     throw new IllegalArgumentException("괄호 오류");
                 }
-                op.pop();
+                op.pop(); // "(" 제거
             }
         }
 
